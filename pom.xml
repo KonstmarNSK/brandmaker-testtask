@@ -21,6 +21,15 @@
             <version>7.0</version>
             <scope>provided</scope>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/javax.mvc/javax.mvc-api -->
+        <dependency>
+            <groupId>javax.mvc</groupId>
+            <artifactId>javax.mvc-api</artifactId>
+            <version>1.0.0</version>
+            <scope>provided</scope>
+        </dependency>
+
     </dependencies>
 
 
@@ -76,7 +85,7 @@
                             <goal>resources</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>src/main/resources/frontend</outputDirectory>
+                            <outputDirectory>target/frontend</outputDirectory>
                             <resources>
                                 <resource>
                                     <directory>src/main/frontend/build</directory>
@@ -92,6 +101,14 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
                 <version>3.3.1</version>
+                <configuration>
+                    <webResources>
+                        <resource>
+                            <directory>target/frontend</directory>
+                            <targetPath>WEB-INF/frontend</targetPath>
+                        </resource>
+                    </webResources>
+                </configuration>
             </plugin>
         </plugins>
     </build>
