@@ -1,5 +1,7 @@
 package controllers;
 
+import beans.PeopleRepository;
+import beans.PeopleService;
 import beans.ThymeleafViewResolver;
 
 import javax.ejb.EJB;
@@ -28,6 +30,8 @@ import static javax.ws.rs.core.Response.Status.NOT_FOUND;
 public class HomeController {
     @EJB
     private ThymeleafViewResolver thymeleafViewResolver;
+    @EJB
+    private PeopleService peopleService;
 
     @Inject
     ServletContext context;
