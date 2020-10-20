@@ -3,7 +3,7 @@ const path = require('path');
 module.exports = {
     mode: 'none',
     entry: {
-        app: path.join(__dirname, 'src/scripts', 'index.tsx')
+        app: path.join(__dirname, 'src', 'scripts', 'index.tsx')
     },
     target: 'web',
     resolve: {
@@ -20,6 +20,6 @@ module.exports = {
     },
     output: {
         filename: 'app-bundle.js',
-        path: path.resolve(__dirname, 'dist/scripts')
+        path: path.resolve(__dirname, path.join('dist', 'scripts'))
     }
 }
