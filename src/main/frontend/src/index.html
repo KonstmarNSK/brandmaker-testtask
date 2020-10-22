@@ -7,6 +7,18 @@
     <title>React Typescript Webpack</title>
 </head>
 <body>
+
+<!-- used in scripts (LinksProvider.ts) -->
+<script data-th-inline="javascript">
+    var serverLinksObject = {
+        "api-root" : /*[[@{/api}]]*/ "not-a-link",
+    }
+
+    serverLinksObject.getLink = function (name){
+        return serverLinksObject[name]
+    }
+</script>
+
 <!-- React app root element -->
 <div id="root"></div>
 <script data-th-src="@{/frontend/scripts/app-bundle.js}"></script>

@@ -1,5 +1,5 @@
 create table if not exists PEOPLE(
-	ID int not null primary key,
+	ID int not null primary key auto_increment,
     EMAIL varchar(255) not null,
     FIRST_NAME varchar(255) not null,
     LAST_NAME varchar(255) not null,

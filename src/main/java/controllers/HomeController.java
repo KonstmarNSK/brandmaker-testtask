@@ -1,6 +1,5 @@
 package controllers;
 
-import beans.PeopleRepository;
 import beans.PeopleService;
 import beans.ThymeleafViewResolver;
 
@@ -22,7 +21,7 @@ import java.net.URLConnection;
 import java.util.Collections;
 import java.util.Objects;
 
-import static javax.ws.rs.core.Response.Status.NOT_FOUND;
+import static javax.ws.rs.core.Response.Status.*;
 
 
 @Stateless
@@ -38,9 +37,10 @@ public class HomeController {
 
 
     @GET
-    @Produces(MediaType.TEXT_HTML)
-    public String getHomepage(@Context HttpServletRequest req, @Context HttpServletResponse response) {
-        return thymeleafViewResolver.processView("index", req, response, Collections.emptyMap());
+    public Response getHomepage(@Context HttpServletRequest req, @Context HttpServletResponse response) {
+        return thymeleafViewResolver.processView("index", req, response, Collections.emptyMap())
+                .map(page -> Response.ok().entity(page).type(MediaType.TEXT_HTML_TYPE).encoding("UTF-8").build())
+                .orElseGet(() -> Response.status(NOT_FOUND).build());
     }
 
     @GET
@@ -52,7 +52,7 @@ public class HomeController {
 
         return Objects.isNull(resource)
                 ? Response.status(NOT_FOUND).build()
-                : Response.ok().entity(resource).type(contentType).build();
+                : Response.ok().entity(resource).type(contentType).encoding("UTF-8").build();
     }
 }
 

@@ -2,6 +2,7 @@ package beans;
 
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
+import org.thymeleaf.exceptions.TemplateInputException;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
 import javax.annotation.PostConstruct;
@@ -10,7 +11,9 @@ import javax.inject.Inject;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.FileNotFoundException;
 import java.util.Map;
+import java.util.Optional;
 
 @Singleton
 public class ThymeleafViewResolver {
@@ -31,10 +34,26 @@ public class ThymeleafViewResolver {
         thymeleafEngine.setTemplateResolver(templateResolver);
     }
 
-    public String processView(String view, HttpServletRequest req, HttpServletResponse resp, Map<String, Object> model) {
+    public Optional<String> processView(String view, HttpServletRequest req, HttpServletResponse resp, Map<String, Object> model) {
         WebContext ctx = new WebContext(req, resp, servletContext, req.getLocale());
         ctx.setVariables(model);
 
-        return thymeleafEngine.process(view, ctx);
+        String result = null;
+
+        try {
+            result = thymeleafEngine.process(view, ctx);
+
+        } catch (Exception e) {
+            if (e instanceof TemplateInputException) {
+                // if given template wasn't found
+                if (e.getCause() instanceof FileNotFoundException) {
+                    return Optional.empty();
+                }
+            }
+
+            throw e;
+        }
+
+        return Optional.ofNullable(result);
     }
 }
